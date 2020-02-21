@@ -31,7 +31,11 @@ class MessageStore {
       message.timestamp
     );
   }
-
+  
+  get() {
+    return this.store.valuesArray();
+  }
+  
 }
 
 module.exports = MessageStore;

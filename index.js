@@ -1,21 +1,20 @@
 const readline = require('readline');
-const Simulation = require('./src/Simulation');
-
+const Program = require('./src/Program');
+const power = 5; // Wh
 
 let rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-let lines = [];
 
+let program = new Program(power);
 
 rl.on('line', function(line){
-    lines.push(line);
+    program.feed(line);
 })
 
 rl.on('close', function() {
-    let simulation = new Simulation(5);
-    simulation.run(lines);
-    simulation.print();
+    program.compute();
+    program.print();
 });

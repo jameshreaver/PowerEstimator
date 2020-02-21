@@ -49,15 +49,15 @@ __Lamp__. The Lamp class is a model that represents and tracks the current brigh
 
 __Message__. A simple class to represent a brightness adjustment message, for given `timestamp` and `delta` values. `TurnOff` messages are created with a delta value of -1. This ensures that the lamp is turned off regardless of its brightness, which can never have a value lower than zero.
 
-__MessageParser__. A class to which exposes the method `parse()`. This method accepts an array of lines formatted according to the specs and returns an array of `Message` objects. Once again, a `TurnOff` message is a message with delta value of -1.0, so that all messages are of the same type.
+__MessageParser__. A class to which exposes the method `parse()`. This method takes a line formatted according to the specs and returns its `Message` object representation. Once again, a `TurnOff` message is a message with delta value of -1.0, so that all messages are of the same type.
 
-__MessageStore__. A class responsible for storing incoming messages and ensuring they are kept in the order of their timestamps. `MessageStore` also handles duplicate messages, storing the latest one for a given timestamp. Internally, it relies on a sorted B+ tree for easy ordering and accessing of messages. It exposes the method `add()` which adds an unordered array of messages, and a series of wrapper methods including `get()` which guarantees to return the stored messages in chronological order.
+__MessageStore__. A class responsible for storing incoming messages and ensuring they are kept in the order of their timestamps. `MessageStore` also handles duplicate messages, storing the latest one for a given timestamp. Internally, it relies on a sorted B+ tree for easy ordering and accessing of messages. It exposes the method `add()` message, and a series of wrapper methods including `get()` which guarantees to return the stored messages _in chronological order_.
 
 __PowerEstimator__. This core class of the implementation estimates the power consumption based on the given power-per-hour parameter. It exposes the method `process()` which, for an array of _ordered_ messages, updates the `estimate` value. `process()` can be called multiple times as messages come in. Internally this class holds a `Lamp` object to track the current brightness settings and it records the timestamp of the last message that was processed.
 
 For each message, the `estimate` parameter is incremented by the product of the current brightness level, the estimator's power-per-hour setting and the amount of hours the lamp has been kept at that brightness level (current timestamp minus the previous timestamp). After the update, the lamp is set to the new brightness value.
 
-__Simulation__. This class joins everything together and creates a simulation for a given power-per-hour setting. It exposes the method `run()` which executes the program on the input lines and `print()` which outputs the estimated power consumption.
+__Program__. This class strings everything together and creates a simulation for a given power-per-hour setting. It exposes the method `feed()` which sends an input line into the program and the methods `compute()` and `print()` which calculate and output the estimate respectively.
 
 
 

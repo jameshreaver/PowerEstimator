@@ -12,20 +12,21 @@ describe('MessageStore', function() {
 
   it('should not be empty after message', function() {
     let message = util.message();
-    store.add([message]);
+    store.add(message);
     assert.equal(store.size(), 1);
   });
 
   it('should contain added message', function() {
     let message = util.message();
-    store.add([message]);
+    store.add(message);
     assert(store.has(message.timestamp));
   });
 
   it('should not contain duplicates', function() {
     let message = util.message();
+    store.add(message);
     let duplicate = util.message(message.timestamp);
-    store.add([message, duplicate]);
+    store.add(duplicate);
     assert.equal(store.size(), 1);
     assert(store.has(message.timestamp));
   });

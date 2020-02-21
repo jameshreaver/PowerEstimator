@@ -11,13 +11,20 @@ class PowerEstimator {
   // Processes ordered messages
   process(messages) {
     messages.forEach((message) => {
-      this.processOne(message);
+      this.processMessage(message);
     });
   }
 
-  processOne(message) {
+  processMessage(message) {
+    // Ignore if older than last timestamp
+    if (message.timestamp < this.timestamp) 
+      return;
+    
+    // Compute and update estimate
     let hours = this.computeHours(message);
     this.estimate += hours * this.power * this.lamp.brightness;
+    
+    // Update variables
     this.timestamp = message.timestamp;
     this.lamp.adjust(message.delta);
   }

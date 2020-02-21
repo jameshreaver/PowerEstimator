@@ -1,3 +1,4 @@
+const Message = require('../src/Message');
 
 // TESTING UTILITIES
 
@@ -15,7 +16,16 @@ function timestamp() {
   return timestamp;
 }
 
+// Random message with optional timestamp
+function message(time = timestamp()) {
+  return new Message(
+    time, delta()
+  );
+}
+
+
 module.exports = {
   delta,
-  timestamp
+  timestamp,
+  message
 };

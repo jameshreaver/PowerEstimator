@@ -59,7 +59,25 @@ For each message, the `estimate` parameter is incremented by the product of the 
 
 __Program__. This class strings everything together and creates a simulation for a given power-per-hour setting. It exposes the method `feed()` which sends an input line into the program and the methods `compute()` and `print()` which calculate and output the estimate respectively.
 
+---
 
+## Optimisations
+
+After solving the problem, I thought about two potential optimisations to the solution. Both are aimed at reducing the amount of resources taken by the program. One is space-based and the other is time-based, and they can be used in conjunction with each other.
+
+__Space-based optimisation__
+
+This optimisation ensures that the space used by the program to store incoming messages is bound. This is defined by a `MAX_SIZE` constant inside `MessageStore`. With this optimisation, when the store reaches the maximum size, the oldest message stored is retrieved, removed, and used to update the current estimate.
+
+Originally it removed a whole batch of old messages. However the option of one-in one-out is just as efficient and allows more time for potentially delayed messages to find their correct place in the message store.
+
+__Time-based optimisation__
+
+This optimisation aims at saving program resources on the assumptions that messages will not get delayed past a set amount of time. This amount is defined by a `MAX_HOURS` constant inside `MessageStore`. With this optimisation, a pruning operation runs with each message, retrieving and removing all messages generated over `MAX_HOURS` hours before the last seen message. The current estimate is then updated with the messages removed.
+
+__Combining optimisations__
+
+In the branch `optimisations`, the two improvements run together. If the message store is full, we try to remove messages by the time-based method, which we deem safer. If no messages are removed this way, we consume the oldest message to free up some space.
 
 ---
 ### Running the tool
@@ -74,7 +92,7 @@ One dependency, namely `readline`, is used but not listed because it's become pa
 ```
 npm start
 ```
-You can write to standard input or feed it an input file.
+You can write to standard input or feed it an input file. If you require the clean output, run `node index.js` directly.
 
 ### Running tests
 

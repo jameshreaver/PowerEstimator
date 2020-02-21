@@ -1,0 +1,12 @@
+{
+  "name": "power-estimator",
+  "version": "1.0.0",
+  "description": "Estimating the power consumption of a lightbulb on an unreliable network",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha"
+  },
+  "author": "James Reaver",
+  "license": "ISC"
+}

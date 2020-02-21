@@ -1,18 +1,35 @@
+const BTree = require('sorted-btree').default;
+
 class MessageStore {
 
   constructor() {
+    this.store = new BTree();
   }
 
   // Add messages to store
   add(messages) {
+    messages.forEach((message) => {
+      this.addOne(message);
+    });
   }
 
+  addOne(message) {
+    this.store.set(
+      message.timestamp,
+      message
+    );
+  }
+
+  // Wrapper methods
+
   size() {
-    return 0;
+    return this.store.size;
   }
 
   has(message) {
-    return false;
+    return this.store.has(
+      message.timestamp
+    );
   }
 
 }

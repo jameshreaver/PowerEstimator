@@ -8,5 +8,8 @@
     "test": "mocha"
   },
   "author": "James Reaver",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^7.0.1"
+  }
 }

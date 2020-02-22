@@ -4,9 +4,10 @@ const Estimator = require('./PowerEstimator');
 
 class Program {
 
-  constructor(power) {
+  constructor(power, size = 200, hours = 24, optimise = false) {
+    this.optimise = optimise;
     this.parser = new MessageParser();
-    this.store  = new MessageStore();
+    this.store  = new MessageStore(size, hours);
     this.estimator = new Estimator(power);
   }
 
@@ -14,6 +15,13 @@ class Program {
   feed(line) {
     let message = this.parser.parse(line);
     this.store.add(message);
+
+    if (this.optimise && this.store.full()) {
+      let removed = this.store.pruneByTime();
+      if (!removed.length)
+        removed = this.store.pruneBySpace();
+      this.estimator.process(removed);
+    }
   }
   
   // Compute and update estimate

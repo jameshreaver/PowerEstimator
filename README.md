@@ -104,4 +104,4 @@ npm test
 ```
 
 ---
-> Developer by James Reaver in February 2020.
+> Developed by James Reaver in February 2020.
